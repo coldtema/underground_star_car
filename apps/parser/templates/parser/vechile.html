@@ -1,0 +1,117 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Результат</title>
+<style>
+body {
+  font-family: system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+  margin: 24px;
+}
+.wrapper {
+  display: flex;
+  align-items: flex-start; /* чтобы оба блока выравнивались сверху */
+  gap: 24px;              /* расстояние между карточкой и фотками */
+}
+.card {
+  max-width: 520px;
+  padding: 20px;
+  border: 1px solid #e5e7eb;
+  border-radius: 14px;
+}
+.photos {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.photos img {
+  max-width: 300px;
+  border-radius: 10px;
+  border: 1px solid #e5e7eb;
+}
+.dim { color: #6b7280; }
+</style>
+</head>
+<body>
+  <div class="wrapper">
+    <!-- Левая колонка -->
+    <div class="card">
+      <h1>Результат запроса</h1>
+      <p>Название: <a href="{{encar_url}}" target="_blank"><strong>{{ full_name }}</strong></a></p>
+      {%if category%}<p>Категория: <strong>{{ category }}</strong></p>{%endif%}
+      <p>Артикул (Encar): <strong>{{ encar_id }}</strong></p>
+      <p>Коробка передач: <strong>{{ transmission }}</strong></p>
+      <p>Пробег: <strong>{{ mileage }}</strong></p>
+      <p>Тип двигателя: <strong>{{ fuel_type }}</strong></p>
+      <p>Дата выпуска: <strong>{{ release_date }}</strong></p>
+      <p>Модельный год: <strong>{{ model_year }}</strong></p>
+      <p>Цвет: <strong>{{ color }}</strong></p>
+      <p>Объем двигателя: <strong>{{ engine_capacity }}</strong></p>
+      <p>Цена в Корее: <strong>{{ ru_price }}</strong></p>
+      <p>Таможенные платежи: <strong>{{ customs_duty }}</strong></p>
+      <p>Утильсбор: <strong>{{ recycling_fee }}</strong></p>
+      <p>Цена под ключ до Владивостока: <strong>{{ final_price }}</strong></p>
+
+      {% for category in all_options_list %}
+        <h2>{{category.name}}</h2>
+        {% if kind == 'TRUCK' %}
+          {% for option in category.truckoption_set.all %}
+            {% if option.id in current_options_list %}
+              <p><strong>{{option.name}}</strong></p>
+            {% endif %}
+          {% endfor %}
+        {% else %}
+          {% for option in category.caroption_set.all %}
+            {% if option.id in current_options_list %}
+              <p><strong>{{option.name}}</strong></p>
+            {% endif %}
+          {% endfor %}
+        {% endif %}
+      {% endfor %}
+
+      {%if diagnosis%}
+        <h1>Сост. кузова:</h1>
+        <p>Передняя левая дверь: <strong>{{ diagnosis.get_left_front_door_display }}</strong></p>
+        <p>Задняя левая дверь: <strong>{{ diagnosis.get_left_back_door_display }}</strong></p>
+        <p>Крышка багажника: <strong>{{ diagnosis.get_trunk_display}}</strong></p>
+        <p>Задняя правая дверь: <strong>{{ diagnosis.get_right_back_door_display }}</strong></p>
+        <p>Передняя правая дверь: <strong>{{ diagnosis.get_right_front_door_display }}</strong></p>
+        <p>Капот: <strong>{{ diagnosis.get_hood_display }}</strong></p>
+        <p>Правое переднее крыло: <strong>{{ diagnosis.get_front_fender_right_display }}</strong></p>
+        <p>Левое переднее крыло: <strong>{{ diagnosis.get_front_fender_left_display }}</strong></p>
+      {%endif%}
+
+
+      {%if record%}
+        <h1>Страховые случаи:</h1>
+        <p>Кол-во владельцев: <strong>{{ record.owner_count }}</strong></p>
+        <p>Кол-во страховых случаев собственных: <strong>{{ record.driver_accident_count }}</strong></p>
+        <p>Выплаты по собственным страховым случаям: <strong>{{ record.driver_accident_cost }}</strong></p>
+        <p>Кол-во страховых случаев чужих: <strong>{{ record.other_accident_count }}</strong></p>
+        <p>Выплаты по чужим страховым случаям: <strong>{{ record.other_accident_cost }}</strong></p>
+        {%if accidents%}
+        <h2>Данные по происшествиям</h2>
+          {% for number, accident in accidents %}
+            <h3>Происшествие {{ number }}</h3>
+            <p>Тип происшествия: <strong>{{ accident.get_type_of_accident_display }}</strong></p>
+            <p>Дата происшествия: <strong>{{ accident.date }}</strong></p>
+            <p>Страховая выплата: <strong>{{ accident.insurance_benefit }}</strong></p>
+            <p>Стоимость запчастей: <strong>{{ accident.part_cost }}</strong></p>
+            <p>Стоимость работ: <strong>{{ accident.labor_cost }}</strong></p>
+            <p>Стоимость покраски: <strong>{{ accident.painting_cost }}</strong></p>
+          {% endfor %}
+        {%endif%}
+      {%endif%}
+      <p><a href="{% url 'index' %}">Назад к поиску</a></p>
+    </div>
+
+    <!-- Правая колонка -->
+    <div class="photos">
+      {% for photo in photo_list%}
+        <img src='{{ photo }}' alt="Фото автомобиля">
+      {% endfor %}
+    </div>
+  </div>
+</body>
+</html>

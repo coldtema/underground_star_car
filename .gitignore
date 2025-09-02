@@ -1,0 +1,10 @@
+usc_venv
+db.sqlite3
+.env
+*.txt
+!requirements.txt
+*.pyc
+*.json
+*.bak
+*.dat
+*.dir

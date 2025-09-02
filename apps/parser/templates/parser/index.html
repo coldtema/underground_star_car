@@ -1,0 +1,40 @@
+{% load static %}
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Поиск по артикулу</title>
+<style>
+body { font-family: system-ui, -apple-system, Segoe UI, Roboto, sans-serif; margin: 24px; }
+.card { max-width: 520px; padding: 20px; border: 1px solid #e5e7eb; border-radius: 14px; }
+.row { margin-bottom: 14px; }
+.input { width: 100%; padding: 10px 12px; border: 1px solid #d1d5db; border-radius: 10px; }
+.btn { padding: 10px 14px; border: 0; border-radius: 10px; cursor: pointer; }
+.btn-primary { background: #111827; color: #fff; }
+.radios label { margin-right: 16px; }
+</style>
+</head>
+    <body>
+        <div class="card">
+            <h1>Поиск по артикулу Encar</h1>
+            <form method="get" action="{%url 'vechile'%}">
+
+
+                <div class="row">
+                    <label for="id_sku"><strong>{{ form.artikul.label }}:</strong></label>
+                    {{ form.artikul }}
+                </div>
+
+
+                <div class="row radios">
+                    <div><strong>{{ form.kind.label }}:</strong></div>
+                    {{ form.kind }}
+                </div>
+
+
+                <button class="btn btn-primary" type="submit">Искать</button>
+            </form>
+        </div>
+    </body>
+</html>
