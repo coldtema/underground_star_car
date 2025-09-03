@@ -1,10 +1,7 @@
 from .models import Car
 import math
 import requests
-import time
 from datetime import date
-one_eur = 1614.69 #(kor w)
-
 
 
 class RuPriceCalc:
