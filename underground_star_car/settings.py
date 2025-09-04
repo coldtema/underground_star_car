@@ -45,9 +45,24 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'apps.parser.apps.ParserConfig',
     'django_extensions',
+    'tailwind',
+    'theme',
+    'django_browser_reload',
     # 'django_celery_results',
 
 ]
+
+
+TAILWIND_APP_NAME = 'theme'
+
+
+NPM_BIN_PATH = r"C:\Program Files\nodejs\npm.cmd"
+
+INTERNAL_IPS = [
+    "127.0.0.1", 
+]
+
+
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
